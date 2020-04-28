@@ -5,18 +5,18 @@ import mailbox
 import numpy
 from numpy import savetxt
 
-
+# Manipulate these variables to control input/output file paths
 OUTPUT_FILE_PATH = "./bodyData.csv"
 PATH_TO_MBOX_FILE = "C:/Users/Horatio/Desktop/All mail Including Spam and Trash.mbox"
 
 mailboxObj = mailbox.mbox(PATH_TO_MBOX_FILE)
 
+# Instantiate diagnostic gathering resources
 observedCharsets = set()
 multipartEmails = 0
 emailBodyData = []
 emailsProcessed = 0
 errorCount = 0
-iterCount = 15
 
 for email in mailboxObj:
 	if email.is_multipart(): multipartEmails += 1
@@ -25,8 +25,6 @@ for email in mailboxObj:
 		email = email.get_payload()[0]
 	 
 	text = email.get_payload(decode=True)
- 
-	if (len(email.get_charsets()) == 0): print('one')
  
 	for charset in email.get_charsets():
 		if (charset != None):
@@ -48,7 +46,7 @@ for email in mailboxObj:
 	emailsProcessed += 1
 	
 
-
+# Print out diagnostic information
 print(f"Observed charsets: {observedCharsets}")
 print(f"Emails Processed: {emailsProcessed}")
 print(f"Harvested Data length: {len(emailBodyData)}")
@@ -63,3 +61,5 @@ with open(OUTPUT_FILE_PATH, encoding="utf-8-sig") as csv_file:
 	rows = list(csv_reader)
 	rowCount = len(rows)
 	print(f"Data samples in saved CSV file: {rowCount}")
+
+	# DO DATA STUFF HERE!
